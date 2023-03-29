@@ -1,0 +1,6 @@
+*.o 
+lex.yy.*
+parser.tab.*
+heapfuck 
+test
+*tmp* 
