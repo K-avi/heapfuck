@@ -2,6 +2,9 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <limits.h>
+
+/* heap allocation functions */
 
 S_BIN_HEAP * initHeap(int heapsize){
     /*
@@ -56,6 +59,9 @@ void realloc_heap (S_BIN_HEAP * heap){
 
 }//not tested
 
+
+//heap manipulation function//
+
 void swap( S_BIN_HEAP * heap, unsigned index1, unsigned index2 ){
     /*
     swaps the value contained at index1 and index2 in a heap; 
@@ -75,6 +81,7 @@ void swap( S_BIN_HEAP * heap, unsigned index1, unsigned index2 ){
 
 }//not tested 
 //kinda stupid ; could prolly be a macro
+//or pass int * as args.
 
 
 void decrease_key( S_BIN_HEAP * heap , int index , int newval){
@@ -94,11 +101,10 @@ void increment_key (S_BIN_HEAP * heap , int index){
     if(!heap->heap) return;
     if(heap->heap_size< index) return;
 
-    while(heap->heap[index] < CHILD1(index)){
+    while(heap->heap[index] < LCHILD(index)){
         swap(heap, index, PARENT(index));
     }
 }//not done
-
 
 void insert_key( S_BIN_HEAP * heap , int value){
     if(!heap) return;
@@ -119,15 +125,50 @@ void insert_key( S_BIN_HEAP * heap , int value){
 
 }//not tested
 
-int pop_index ( S_BIN_HEAP * heap, int index){
 
-    return 0;
-}//not done
+void min_heapify( S_BIN_HEAP * heap , int i){
+    int l = heap->heap[LCHILD(i)];
+    int r = heap->heap[LCHILD(i)];
+    int smallest = i;
+    if (l < heap->heap_size && heap->heap[l] < heap->heap[i])
+        smallest = l;
+    if (r < heap->heap_size && heap->heap[r] < heap->heap[smallest])
+        smallest = r;
+    if (smallest != i)
+    {
+        swap(heap, i, smallest);
+
+        min_heapify(heap, smallest);
+    }
+}//pas teste 
+//peut etre faire avc pointeurs jsp ??
+
 
 int pop_root( S_BIN_HEAP * heap){
     if(!heap) return 0;
     if(!heap->heap) return 0;;
     if(heap->heap_size<= heap->curindex) return 0;
+    
+    if(heap->heap[0]==1){
+         heap->heap[0]--;
+        return heap->heap[1];
+    }
 
-    return pop_index(heap, 0);
-}//not done
+    int root= heap->heap[1];
+
+    heap->heap[1]= heap->heap[heap->heap[0]];
+    heap->heap[0]--;
+
+    min_heapify(heap,0);
+
+    return root;
+   
+
+}//not tested
+
+
+int pop_index ( S_BIN_HEAP * heap, int index){
+    decrease_key(heap, index, INT_MIN);
+    pop_root(heap);
+    return 0;
+}//not tested

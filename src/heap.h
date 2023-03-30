@@ -14,8 +14,8 @@ typedef struct bin_heap{
 #define _REALLOC_SIZE(cur_size) ( (cur_size)+1) 
 //allows increase the horizontal heap size by 1
 
-#define PARENT(index) (((index)-1)/2)
-#define CHILD1(index) (((index)*2)+1)
-#define CHILD2(index) (((index)*2)+2)
+#define PARENT(index) (((index))/2)
+#define LCHILD(index) (((index)*2))
+#define RCHILD(index) (((index)*2)+1)
 
 #endif

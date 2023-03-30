@@ -1,0 +1,14 @@
+heapfuck isn't very ambitious ; 
+
+I'll reuse code from (SIASL)² and siasl ; 
+
+
+from siasl2 :  ast.c ; exec.c ; cmdline_interp.c
+
+from siasl : stack.c ; globals.c 
+
+
+might also add some operators like something to pop a value from the heap
+and something to add one to add one
+
+heap manipulation written ; not tested yet though 
