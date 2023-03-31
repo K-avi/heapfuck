@@ -1,5 +1,5 @@
 #include "stack.h"
-#include "heap.h"
+#include "cells.h"
 #include "ast.h"
 
 #include <stdint.h>
@@ -21,7 +21,7 @@ S_STACK * init_stack(unsigned size){
 void print_stack( S_STACK* stack){
     for( uint32_t i=0; i<stack->size; i++){
         if(stack->stack[i]){
-            printf("%u : %c\t", i, token_to_char(stack->stack[i]->tok) );
+            printf("%u : %c%c\t", i, token_to_char(stack->stack[i]->symbol), token_to_char(stack->stack[i]->symbol>>4) );
         }else{
             printf("%u : (null\t)", i);
         }
@@ -34,3 +34,4 @@ void free_stack( S_STACK* stack){
     if(stack->stack) free(stack->stack); 
     free(stack);
 }
+
