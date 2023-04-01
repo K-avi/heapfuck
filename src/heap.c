@@ -91,13 +91,21 @@ void swap( S_BIN_HEAP * heap, int index1, int index2 ){
 
 void min_heapify( S_BIN_HEAP * heap , int i){
     /*
-    */
+    given a starting index i and a heapified subtree, 
+    heapifies the tree subtree of root i 
 
+    doesn't do anything if 
+    heap or heap->heap are null 
+    or the index given is bigger than the number of 
+    elements in the tree
+    */
+    if(!heap) return;
+    if(!heap->heap) return;
     if(i>heap->heap[0]) return;
 
     int l = OP_LCHILD(i);
     int r = OP_RCHILD(i);
-  //  printf("in min heapify l = %d r=%d i = %d\n", l , r ,i);
+  
     int smallest = i;
 
     if (l <  heap->heap_size && heap->heap[l] < heap->heap[i])
@@ -110,7 +118,7 @@ void min_heapify( S_BIN_HEAP * heap , int i){
         swap(heap, i, smallest);
         min_heapify(heap, smallest);
     }
-}//testes; seems ok? something might be wrong idk
+}//testes; seems ok
 
 void decrease_key( S_BIN_HEAP * heap , int index , int decrement){
     /*
@@ -130,7 +138,7 @@ void decrease_key( S_BIN_HEAP * heap , int index , int decrement){
         index= OP_PARENT(index);
     }
 
-}//testes; ok
+}//tested; ok
 
 void increase_key (S_BIN_HEAP * heap , int index, int increment ){
     /*
@@ -142,8 +150,6 @@ void increase_key (S_BIN_HEAP * heap , int index, int increment ){
     if(  heap->heap_size<index) return;
 
     heap->heap[index]+= increment;
-
-    
 
     min_heapify(heap, index);
 
@@ -165,21 +171,15 @@ void insert_key( S_BIN_HEAP * heap , int value){
 
     int i = ++heap->heap[0];
     heap->heap[i]=value;
-   
-    //printf("in insert key  value %c\n", value);
+
     while(i>0 &&  heap->heap[OP_PARENT(i)] > heap->heap[i]){
 
         swap(heap, i, OP_PARENT(i));
-       // printf("swap\n");
+       
         i=OP_PARENT(i);
     }
 
-  
-
-
 }//tested ; seems ok
-
-
 
 
 

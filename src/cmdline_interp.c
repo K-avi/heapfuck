@@ -25,10 +25,9 @@ void interactive_interp( S_BIN_HEAP * environment, S_STACK * stack){
     unsigned char printcheck=0;
     unsigned char syntax_err=0;
 
-    printf("welcome to the heapfuck interactive interpreter!\n>>> ");
+    printf("welcome to the heapfuck interactive interpreter!\nto exit simply type quit\n>>> ");
     while( fgets(line, 256, stdin)){
 
-         //print_heap(environment);
 
          fflush(stdin); 
          fflush(stdout);
@@ -82,4 +81,4 @@ void interactive_interp( S_BIN_HEAP * environment, S_STACK * stack){
         
    }
    printf("bye!\n"); 
-}//testing; has pb with newlines
+}//tested seems ok
