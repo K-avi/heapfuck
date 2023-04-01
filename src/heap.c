@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <limits.h>
+#include <unistd.h>
 
 /* heap allocation functions */
 
@@ -19,6 +20,7 @@ S_BIN_HEAP * initHeap(int heapsize){
     S_BIN_HEAP * ret= (S_BIN_HEAP*) malloc(sizeof(S_BIN_HEAP));
 
     ret->heap_size=heapsize;
+    ret->currindex=1;
     ret->heap= (int*) malloc(heapsize* sizeof(int));
 
     if(!ret->heap){
@@ -32,7 +34,7 @@ S_BIN_HEAP * initHeap(int heapsize){
     ret->heap[0]=0;
 
     return ret;
-}//not tested 
+}//testes ; ok
 
 void free_heap( S_BIN_HEAP * heap){
     /*
@@ -44,7 +46,7 @@ void free_heap( S_BIN_HEAP * heap){
 
     if(heap->heap) free(heap->heap);
     free(heap);
-}//should be ok
+}//testes; ok
 
 
 void realloc_heap (S_BIN_HEAP * heap){
@@ -60,7 +62,7 @@ void realloc_heap (S_BIN_HEAP * heap){
     heap->heap=realloc(heap->heap, sizeof(int)* _REALLOC_SIZE(heap->heap_size));
     heap->heap_size+= _REALLOC_SIZE(heap->heap_size);
 
-}//not tested
+}//not tested  but  seems ok
 
 
 //heap manipulation function//
@@ -75,82 +77,123 @@ void swap( S_BIN_HEAP * heap, int index1, int index2 ){
     */
     if(!heap) return;
     if(!heap->heap) return;
-    if( (index1 > heap->heap_size) || (index2 > heap->heap_size)) return;
-
+    if( (index1 > heap->heap[0]) || (index2 > heap->heap[0])) return;
+    if(! (index1 && index2)) return;
     unsigned tmpVal= heap->heap[index1];
 
     heap->heap[index1]= heap->heap[index2];
     heap->heap[index2]= tmpVal;
 
-}//not tested 
+  
+}//tested; ok
 //kinda stupid ; could prolly be a macro
 //or pass int * as args.
 
+void min_heapify( S_BIN_HEAP * heap , int i){
+    /*
+    */
 
-void decrease_key( S_BIN_HEAP * heap , int index , int newval){
+    if(i>heap->heap[0]) return;
+
+    int l = OP_LCHILD(i);
+    int r = OP_RCHILD(i);
+  //  printf("in min heapify l = %d r=%d i = %d\n", l , r ,i);
+    int smallest = i;
+
+    if (l <  heap->heap_size && heap->heap[l] < heap->heap[i])
+        smallest = l;
+    if (r < heap->heap_size && heap->heap[r] < heap->heap[smallest])
+        smallest = r;
+
+    if (smallest != i){
+       // printf("in heapify , smolest");
+        swap(heap, i, smallest);
+        min_heapify(heap, smallest);
+    }
+}//testes; seems ok? something might be wrong idk
+
+void decrease_key( S_BIN_HEAP * heap , int index , int decrement){
+    /*
+    exits if heap is badly initialised or 
+    if index > heap_size
+    */
     if(!heap) return;
     if(!heap->heap) return;
-    if ( (int)heap->heap_size<  index) return;
+    if ( heap->heap_size<  index) return;
 
-    heap->heap[index]= newval;
+    heap->heap[index]-= decrement;
 
-    while(heap->heap[index] > OP_PARENT(index)){
+    if(index==0) return;
+
+    while(heap->heap[index] < heap->heap[OP_PARENT(index)] && (OP_PARENT(index)>0)){
         swap(heap, index, OP_PARENT(index));
+        index= OP_PARENT(index);
     }
-}//not tested
 
-void increment_key (S_BIN_HEAP * heap , int index){
+}//testes; ok
+
+void increase_key (S_BIN_HEAP * heap , int index, int increment ){
+    /*
+    exits if heap is badly initialised or 
+    if index > heap_size
+    */
     if(!heap) return;
     if(!heap->heap) return;
-    if(  (int)heap->heap_size<index) return;
+    if(  heap->heap_size<index) return;
 
-    while(heap->heap[index] < OP_LCHILD(index)){
-        swap(heap, index, OP_PARENT(index));
-    }
-}//not done
+    heap->heap[index]+= increment;
+
+    
+
+    min_heapify(heap, index);
+
+}//tested; ok
+
 
 void insert_key( S_BIN_HEAP * heap , int value){
+    /*
+    handles reallocation 
+    but will exit if given NULL or a 
+    heap badly initialised
+    */
     if(!heap) return;
     if(!heap->heap) return;
-    if( (int)heap->heap_size<= heap->heap[0]) return;
 
-    int i = heap->heap_size;
+    if( heap->heap_size<= heap->heap[0]) {
+        realloc_heap(heap);
+    }
+
+    int i = ++heap->heap[0];
     heap->heap[i]=value;
-    heap->heap_size++;
-
+   
+    //printf("in insert key  value %c\n", value);
     while(i>0 &&  heap->heap[OP_PARENT(i)] > heap->heap[i]){
 
         swap(heap, i, OP_PARENT(i));
-
+       // printf("swap\n");
         i=OP_PARENT(i);
     }
 
+  
 
-}//not tested
+
+}//tested ; seems ok
 
 
-void min_heapify( S_BIN_HEAP * heap , int i){
-    int l = heap->heap[OP_LCHILD(i)];
-    int r = heap->heap[OP_LCHILD(i)];
-    int smallest = i;
-    if (l <  (int)heap->heap_size && heap->heap[l] < heap->heap[i])
-        smallest = l;
-    if (r < (int) heap->heap_size && heap->heap[r] < heap->heap[smallest])
-        smallest = r;
-    if (smallest != i)
-    {
-        swap(heap, i, smallest);
 
-        min_heapify(heap, smallest);
-    }
-}//pas teste 
-//peut etre faire avc pointeurs jsp ??
 
 
 int pop_root( S_BIN_HEAP * heap){
-    if(!heap) return 0;
-    if(!heap->heap) return 0;;
-    if(  (int)heap->heap_size<= heap->heap[0]) return 0;
+    /*
+    checks for heap and heap-> heap allocation 
+
+    checks for coherence of the heap. 
+
+    returns root on succes ; INT_MIN on failure.
+    */
+    if(!heap) return INT_MIN;
+    if(!heap->heap) return INT_MIN;;
+    if(  heap->heap_size<= heap->heap[0]) return INT_MIN;
     
     if(heap->heap[0]==1){
          heap->heap[0]--;
@@ -167,25 +210,45 @@ int pop_root( S_BIN_HEAP * heap){
     return root;
    
 
-}//not tested
+}// tested; seems ok
 
 
 int pop_index ( S_BIN_HEAP * heap, int index){
+    /*
+    pops index passed as arg; 
+    checks for NULL pointer in 
+    heap 
+    heap->heap 
+
+    check for index<heapsize
+
+    returns INT_MIN on failure
+    */
     if(!heap ) return INT_MIN;
+    if(!heap->heap) return INT_MIN;
+    if(index >= heap->heap_size) return INT_MIN;
+
     decrease_key(heap, index, INT_MIN);
     int ret=pop_root(heap);
     return ret;
-}//not tested
+}//tested; seems ok
 
 
 void print_heap( S_BIN_HEAP * heap){
+    /*
+    print every element currently in the heap 
+    as the array representing the heap.
+    
+    doesnt do anything if
+    heap || heap->heap are NULL 
+    */
     if(!heap ) return;
     if(!heap->heap) return;
     printf("heap of size %d\n", heap->heap_size);
     printf("currently containing : %d elements\n", heap->heap[0]);
-
-    for( int i=1; i<heap->heap[0] ; i++){
+    printf("the cell pointer is currently pointing on the cell number %d\n", heap->currindex);
+    for( int i=1; i<=heap->heap[0] ; i++){
         printf("%d ", heap->heap[i]);
     }
     printf("\n");
-}
+}//tested ; works

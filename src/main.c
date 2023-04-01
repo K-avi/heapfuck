@@ -3,6 +3,7 @@
 #include "globals.h"
 #include "exec.h"
 #include "ast.h"
+#include "cmdline_interp.h"
 
 #include "parser.tab.h"
 #include "lex.yy.h"
@@ -13,12 +14,6 @@
 #include <ctype.h>
 
 extern program  * prog;
-
-
-
-#include <signal.h>
-
-extern program * prog;
 
 
 void sigint_handler( int sig){
@@ -47,7 +42,7 @@ int main(int argc, char ** argv){
     char* filename = NULL;
     int c;
 
-    printf("(SIASL)² Copyright (C) 2023  Ivan MULOT-RADOJCIC\nThis program comes with ABSOLUTELY NO WARRANTY;\nfor details see the GPLv3 documentation.\nThis is free software, and you are welcome to redistribute it under certain conditions\n\n");
+    printf("heapfuck Copyright (C) 2023  Ivan MULOT-RADOJCIC\nThis program comes with ABSOLUTELY NO WARRANTY;\nfor details see the GPLv3 documentation.\nThis is free software, and you are welcome to redistribute it under certain conditions\n\n");
 
     while ((c = getopt(argc, argv, "hcf:")) != -1) {
         
@@ -99,13 +94,17 @@ int main(int argc, char ** argv){
 
     if (cmdline_mode) {
 
-         cmdline_interp();
-
+         interactive_interp(environment ,stack );
+        
+         /*freeing everything after exec*/
+         free_heap(environment);
+         free_stack(stack);
+         free_prog(prog);
          return 0;
          
     }else if(file_mode){
 
-         yyin = fopen(filename, "r");
+        yyin = fopen(filename, "r");
         if (!yyin) {
             perror("Could not open file");
             exit(-1);
@@ -114,7 +113,7 @@ int main(int argc, char ** argv){
         progempty=0;
         fclose(yyin);
 
-        exec_prgm(prog, environment, stack);
+        exec(prog, environment, stack , NULL);
 
         /*freeing everything after exec*/
         free_heap(environment);

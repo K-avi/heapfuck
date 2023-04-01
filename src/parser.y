@@ -27,7 +27,7 @@
   struct program * prog;
 }
 
-%token <token> PRINT READ LCHILD RCHILD PARENT PLUS MINUS 
+%token <token> PRINT READ LCHILD RCHILD PARENT PLUS MINUS HEAP_DUMP POP CREATE
 %token <token> LBRACKET RBRACKET
 
 
@@ -57,7 +57,7 @@ program
 stmts
   : stmt    { $$ = $1; }
   | stmts stmt  { mergeInstruction($$ = $1, $2); }
-  | stmts error { free_instruct($1) ; $$=NULL; YYABORT; }
+  | stmts error { free_instruct($1) ; $$=NULL; yyerror("stmts error"); YYABORT; }
 
 
 ;
@@ -66,7 +66,7 @@ stmts
 
 stmt
   : loop { $$ = $1; }
-  | op  { $$ = mkinstruction($1); }
+  | op  {  $$ = mkinstruction($1);  }
 
 ;
 
@@ -97,6 +97,9 @@ op
   | PARENT
   | PLUS
   | MINUS
+  | HEAP_DUMP 
+  | POP 
+  | CREATE
 
 ;
 

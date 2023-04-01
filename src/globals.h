@@ -10,5 +10,6 @@ extern S_STACK * stack;
 extern unsigned char progempty;
 
 
+extern int default_keyval;
 
 #endif

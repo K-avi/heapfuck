@@ -7,6 +7,8 @@
 #include <stdio.h>
 
 S_STACK * init_stack(unsigned size){
+    /*
+    */
     if(size==0) return NULL;
     
     S_STACK * ret= (S_STACK*) malloc(sizeof(S_STACK));
@@ -15,10 +17,15 @@ S_STACK * init_stack(unsigned size){
     ret->size=size;
 
     return ret;
-}
+}//tested ;ok
 
 
 void print_stack( S_STACK* stack){
+    /*
+    */
+
+    //no clue why i declared i as uint32_t but it's really funny 
+    //so I'll leave it there
     for( uint32_t i=0; i<stack->size; i++){
         if(stack->stack[i]){
             printf("%u : %c\t", i, token_to_char(stack->stack[i]->tok) );
@@ -27,10 +34,12 @@ void print_stack( S_STACK* stack){
         }
     }
     printf("\n");
-}
+}//not tested but should be ok ?
 
 void free_stack( S_STACK* stack){
+    /*
+    */
     if(!stack) return;
     if(stack->stack) free(stack->stack); 
     free(stack);
-}
+}//testes ; ok

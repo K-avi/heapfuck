@@ -5,7 +5,7 @@
 #include "heap.h"
 #include "stack.h"
 
-extern int exec_prgm( program* progr,  S_BIN_HEAP* environment, S_STACK* stack);
+extern int exec( program* progr,  S_BIN_HEAP* environment, S_STACK* stack, unsigned char * printcheck);
 
 
 

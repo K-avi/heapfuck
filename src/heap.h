@@ -3,8 +3,9 @@
 
 typedef struct bin_heap{
 
-    int * heap;  //heap size stored at heap->heap[0]
+    int * heap;  //number of elements in the heap (and index of insertion) stored at heap->heap[0]
     int heap_size;
+    int currindex ; //index of the cell currently pointed to
 
 }S_BIN_HEAP;
 
@@ -26,10 +27,13 @@ extern void increase_key (S_BIN_HEAP * heap , int index ,int increment);
 extern void min_heapify( S_BIN_HEAP * heap , int i);
 extern void swap( S_BIN_HEAP * heap, int index1, int index2 );
 
-void insert_key( S_BIN_HEAP * heap , int value);
+extern void insert_key( S_BIN_HEAP * heap , int value);
 
 extern int pop_index ( S_BIN_HEAP * heap, int index);
 
+/* misc*/
+
+extern void print_heap( S_BIN_HEAP * heap);
 
 #define OP_PARENT(index) (((index))/2)
 #define OP_LCHILD(index) (((index)*2))

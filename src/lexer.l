@@ -19,6 +19,9 @@
 "-"         { return TOKEN(MINUS); }
 "["         { return TOKEN(LBRACKET); }
 "]"         { return TOKEN(RBRACKET); }
+"#"         { return TOKEN(HEAP_DUMP);}
+"!"         { return TOKEN(POP); }
+"%"         {return TOKEN(CREATE);}
 
 .           { ; }
 

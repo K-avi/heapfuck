@@ -5,6 +5,8 @@
 
 
 void free_instruct ( instruction * instruct){
+    /*
+    */
     if(!instruct) return;
 
     instruction * tmp1= instruct, * tmp2=instruct;
@@ -14,15 +16,17 @@ void free_instruct ( instruction * instruct){
 
         tmp1=tmp2;
     }
-}//not tested 
+}//tested ;works
 
 
 int bison_token_to_internal( int token){
     /*
     converts flex/bison generated token to internal rep; 
-    will be usefull down the line cuz multiple parsers n shit
+    
+    returns -1 on invalid tokens
+
     */
-   
+ 
     switch (token){
 
         case LCHILD : return INT_LCHILD; break;
@@ -37,13 +41,18 @@ int bison_token_to_internal( int token){
         
         case LBRACKET: return INT_LBRACKET; break;
         case RBRACKET: return INT_RBRACKET; break;
+
+        case HEAP_DUMP : return INT_HEAPD; break;
+        case POP : return INT_POP; break; 
+
+        case CREATE : return INT_CREATE ; break;
       
         default: return -1; 
         
     }
 
     return -1;
-}//not tested
+}// tested; works
 
 
 
@@ -63,38 +72,48 @@ char token_to_char(int token){
    
     case INT_READ: return ','; break;
     case INT_PRINT: return '.'; break;
+
+    case INT_HEAPD : return '#'; break;
+
+    case INT_POP : return '!'; break;
+
+    case INT_CREATE : return '%'; break;
  
     default : return 'x'; break;
     }
 
     return 'x';
-}
+}//not tested but should be ok
 
 instruction * mkinstruction( token tok){
     /*
     */
+
+  //  printf("reached mkinstr %d\n", tok);
     instruction * ret = (instruction*) malloc(sizeof(instruction));
 
-    ret->tok=tok;
+    ret->tok= bison_token_to_internal(tok);
     ret->next=NULL;
     ret->prev=NULL; 
 
     ret->other=NULL;
 
     return ret;
-}//changed; not tested 
+}//changed;  tested ; ok
 
 program* initProg(){
     /*
     called once at start of exec
     */
+
+  //  printf("initProg check\n");
     program * ret= (program*) malloc(sizeof(program));
 
     ret->head=NULL; 
     ret->tail=NULL;
 
     return ret;
-}
+}//tested ok
 
 void insertHead( program * prog,  instruction * newH){
     /*
@@ -110,7 +129,7 @@ void insertHead( program * prog,  instruction * newH){
         
     }
     prog->head=newH;
-}//not tested 
+}//tested ; ok 
 
 void insertTail( program * prog, instruction * newT){
     /*
@@ -127,12 +146,14 @@ void insertTail( program * prog, instruction * newT){
     }
     prog->tail=newT;
 
-}//not tested
+}//tested; ok
 
 void free_prog (program * prog){
     /*
     if error handler is set, will free the potential instruction * from a defun type statement.
     */
+
+  //  printf("free_prog check\n");
     if(!prog) return;
 
     instruction * tmp1= prog->head, * tmp2=prog->head;

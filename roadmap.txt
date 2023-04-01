@@ -9,6 +9,13 @@ from siasl : stack.c ; globals.c
 
 
 might also add some operators like something to pop a value from the heap
-and something to add one to add one
+
+
+-> to add will use the "read" instruction of bf , instead of reading value and set curcell to it 
+    will append to heap 
+
+-> for pop will use "!" which will pop curindex 
+
+-> also might implement "%" to print as int
 
 heap manipulation written ; not tested yet though 

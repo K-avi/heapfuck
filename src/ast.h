@@ -4,7 +4,7 @@
 #include "parser.tab.h"
 
 
-typedef unsigned char token;
+typedef unsigned short token;
 struct program ;
 
 typedef struct instruction{ 
@@ -44,7 +44,7 @@ extern void mergeInstruction( instruction * list1, instruction * list2);
 
 extern void free_instruct( instruction * list);
 
-enum {  INT_LCHILD=0 , INT_RCHILD, INT_PARENT , INT_PLUS, INT_MINUS, INT_PRINT, INT_READ,INT_LBRACKET, INT_RBRACKET, };
+enum {  INT_LCHILD=0 , INT_RCHILD, INT_PARENT , INT_PLUS, INT_MINUS, INT_PRINT, INT_READ, INT_LBRACKET, INT_RBRACKET, INT_HEAPD, INT_POP, INT_CREATE };
 
 
 #endif
