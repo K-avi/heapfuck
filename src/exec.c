@@ -70,7 +70,7 @@ int exec(program * progr , S_BIN_HEAP * environment , S_STACK * stack, unsigned 
         break;
 
         case INT_READ : 
-            printf("reached read\n");
+          
             fflush(stdin);
             if(fgets(safe_getchar, 255, stdin)){
               

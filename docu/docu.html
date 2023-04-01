@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <title>heapfuck docu</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="css/bootstrap.min.css" >
+        <!--custom css-->
+        <link rel="stylesheet" href="css/styles_var.css">
+    </head>
+    <body>
+        <h1 class="text-center">heapfuck : Documentation</h1>
+        <div class="card text-white bg-light mb-3" style="max-width: 18rem;">
+            <div class="card-header">
+                <h2 class="text-left blue" >Summary:</h2>
+                <br/>
+            </div>
+            <div class="card-body">
+                        <ul>
+                            <li><a href="#p1" class="text-justify">I: Introduction</a></li>
+                            <li><a href="#p2">II: Environment </a></li>
+                            <li> <a href="#p3">III:  Instructions</a> </li>
+                            <li><a href="#p4">IV: Heapfuck's Turing completness</a></li>
+                        </ul>
+            </div>
+        </div>
+        <div id="p1">
+            <h2><u>I: Introduction</u></h2>
+            <p>
+                Heapfuck is a <a href=" https://esolangs.org/wiki/Brainfuck">brainfuck</a> like <a href=https://esolangs.org/wiki/Esoteric_programming_language>Esolang</a>. It's goal is to  
+                be a <a href=" https://esolangs.org/wiki/Brainfuck">brainfuck<a> where the environment is a <a href="https://en.wikipedia.org/wiki/Binary_heap">binary heap</a>
+                instead of a list/array.
+                The language's lexic and syntax are very similar to <a href=" https://esolangs.org/wiki/Brainfuck">brainfuck</a>. 
+                Heapfuck also supports a few instructions to make manipulating a heap easier/possible. 
+                Some <a href=" https://esolangs.org/wiki/Brainfuck">brainfuck</a> instructions are also redefined to make sense 
+                in the context of a <a href="https://en.wikipedia.org/wiki/Heap_(data_structure)">heap</a> (cf documentation of <code>,</code> , <code>&gt;</code> and
+                <code>&lt;</code>)
+
+                
+            </p>
+        </div>
+        <hr/>
+        <div id="p2">
+            <h2><u>II: Environment</u></h2>
+            <p>
+                The environment of heapfuck is a binary heap. At the beginning of the program, the heap is 
+                empty. The maximal size of the heap is theoretically infinite. 
+                Each node of the heap contains a signed integer.
+                Note that the structure of the heap is always maintained and that the heap is updated after 
+                each instruction.
+            </p>
+        </div>
+        <hr/>
+        <div id="p3">
+            <h2><u>III: Instructions</u></h2>
+            <p>
+                heapfuck accepts brainfuck like instruction adapted to the binary heap structure. 
+                The behavior of some is slightly changed to be more adapted to a heap. 
+                Noe that after every instruction the environment will restructure itself to 
+                remain a binary heap. 
+                If the heap is empty, every instruction other than the creation of nodes will be ignored.
+                NB: Every character that isn't an instruction is ignored.
+            </p>
+
+            <table class="table table-bordered table-light">
+                <tbody>
+                    <tr>
+                        <th>Command</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center"><code>%</code></td>
+                        <td>Initialises a node in the heap at 0</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center"><code>,</code></td>
+                        <td>Reads a character and initialises a node in the heap at the character's value</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center"><code>&lt;</code></td>
+                        <td>moves the node pointer to the left child of the current node if it exists</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center"><code>&gt;</code></td>
+                        <td>moves the node pointer to the right child of the current node if it exists</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center"><code>^</code></td>
+                        <td>moves the node pointer to the parent of the current node if it exists</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center"><code>!</code></td>
+                        <td>removes the node under the pointer from the heap</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center"><code>+</code></td>
+                        <td>increments the node under the pointer by 1</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center"><code>-</code></td>
+                        <td>decrements the node under the pointer by 1</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center"><code>[</code></td>
+                        <td>jumps past the matching <code>]</code> if the value of the node under the pointer is 0 </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center"><code>]</code></td>
+                        <td>jumps back to the matching <code>[</code> if the value of the node under the pointer is nonzero </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center"><code>.</code></td>
+                        <td>prints the value of the node under the pointer as a char</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center"><code>:</code></td>
+                        <td>prints the value of the node under the pointer as a decimal int</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center"><code>&sharp;</code></td>
+                        <td>prints the heap as an array as well as informations on the heap (size, number of elements, index of node pointer)</td>
+                    </tr>
+                </tbody>
+            </table>  
+        </div>
+        <hr/>
+        <div id="p4">
+            <h2><u>IV: turing completness</u></h2>
+            <p>
+                heapfuck is probably turing complete. I'm not sure yet though 
+            </p>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,37 @@
+%%%%%%%% adds the space for 8 nodes
+
+<<< goes to the left child three times (bottom/leftmost node of the heap)
+sets the value for the U 
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+^ goes back to the parent node
+sets the value for the P
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+^> goes to the right child of the parent node
+sets value for the K
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+^ goes back to the parent node 
+
+sets value for the H 
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+^goes back to the root node 
+
+>> goes to the right child two times (rightmost node of the heap)
+
+sets value of node to F
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+^< goes to the parent then to it's left child
+sets value for the E
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+^
+sets value for the C
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+^ goes back to the root node
+sets value for the A
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+retrieves and print characters in the correct order
+^<.^><.^^.<<.^^>>.^^<<<.^^^>.^<>.

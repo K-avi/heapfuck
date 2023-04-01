@@ -1,5 +1,13 @@
-heapfuck is a small language project I wanan do before moving on to making
-more "conventionnal" languages and learning to use LLVM. 
-It's goal is to be a brainfuck like language where the infinite array is 
-replaced by a Binary Heap.
-The language will support every bf operation + a few ones related to heaps.
+heapfuck is a small bf-like language. 
+It's goal is to adapt brainfuck to make operations on a binary 
+heap instead of an array. 
+
+The heapfuck interpreter supports the 
+-f , -c and -h options. 
+
+-h prints help and exits the program. 
+-f reads input from a file. 
+-c starts the dynamic interpreter, which reads input from stdin. 
+
+if called without options the heapfuck interpreter will go in command line mode.
+if called with invalid options the heapfuck interpreter will print an error message and return.
