@@ -11,20 +11,19 @@
 #include <limits.h>
 
 int exec(program * progr , S_BIN_HEAP * environment , S_STACK * stack, unsigned char * printcheck){
+  /*
+  executes progr given the context env and stack.
 
+  printcheck is only usefull for cmdline_interp and not very important. 
 
-  // printf("in exec \n");
- // printf("p %p e %p s %p\n", progr, environment,  stack);
+  returns -1/-2 on error; 0 on succes.
+  */
   if(! (progr && environment && stack )) {
-  
     return -1;
   }
   instruction* curr = progr->head;
   
   unsigned short stack_ptr = 0;
-  
- // int length= environment->size;
- 
  
   
   char safe_getchar[256]; //used in read function to pass stuff safely
@@ -33,11 +32,11 @@ int exec(program * progr , S_BIN_HEAP * environment , S_STACK * stack, unsigned 
     
     unsigned short instruction = curr->tok;
     int idx= environment->currindex; 
-    printf("curr %p curr n %p curr o %p\n",(void*) curr,(void*) curr->next ,(void*) curr->other);
+    
     switch (instruction) {
         
         case INT_LCHILD : 
-        printf("reached lchild %d %d \n", OP_LCHILD(environment->currindex) , environment->currindex);
+       
             if(  OP_LCHILD(environment->currindex)<=(environment->heap[0])) 
               idx= OP_LCHILD(environment->currindex); 
 
@@ -84,20 +83,22 @@ int exec(program * progr , S_BIN_HEAP * environment , S_STACK * stack, unsigned 
         break;
 
         case INT_LBRACKET : 
-        
+  
             if (environment->heap[idx] == 0) {
+              
                 curr = curr->other;
-              } else {
+            } else {
                 if (stack_ptr >= STACK_SIZE) {
                     return -1; //stack overflow
                 }
                 stack->stack[stack_ptr++] = curr;
-              }
+            }
         break;
 
         case INT_RBRACKET : 
+       
             curr = stack->stack[--stack_ptr];
-        break;
+        continue;
 
         case INT_HEAPD : 
             print_heap(environment);
@@ -112,13 +113,20 @@ int exec(program * progr , S_BIN_HEAP * environment , S_STACK * stack, unsigned 
             insert_key(environment, default_keyval);
         break;
 
-        default: return 0; break;
+        case INT_DPRINT: 
+            printf("%d ", environment->heap[idx]);
+            if(printcheck) *printcheck=1;
+        break;
+
+        default: return -2; break;
     }
     curr=curr->next;
     environment->currindex=idx;
   } 
   
   
-  return 1;
+  return 0;
 
-}//testing; has problems w loop
+}//testing; seems ok
+//I strongly suspect that there are edge cases where the heap structure
+//gets broken but I can't find em 

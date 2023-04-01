@@ -27,7 +27,7 @@
   struct program * prog;
 }
 
-%token <token> PRINT READ LCHILD RCHILD PARENT PLUS MINUS HEAP_DUMP POP CREATE
+%token <token> PRINT READ LCHILD RCHILD PARENT PLUS MINUS HEAP_DUMP POP CREATE DPRINT
 %token <token> LBRACKET RBRACKET
 
 
@@ -100,6 +100,7 @@ op
   | HEAP_DUMP 
   | POP 
   | CREATE
+  | DPRINT
 
 ;
 

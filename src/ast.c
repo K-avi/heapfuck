@@ -46,6 +46,7 @@ int bison_token_to_internal( int token){
         case POP : return INT_POP; break; 
 
         case CREATE : return INT_CREATE ; break;
+        case DPRINT : return INT_DPRINT; break;
       
         default: return -1; 
         
@@ -78,6 +79,8 @@ char token_to_char(int token){
     case INT_POP : return '!'; break;
 
     case INT_CREATE : return '%'; break;
+
+    case INT_DPRINT : return ':'; break;
  
     default : return 'x'; break;
     }

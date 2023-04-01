@@ -22,6 +22,7 @@
 "#"         { return TOKEN(HEAP_DUMP);}
 "!"         { return TOKEN(POP); }
 "%"         {return TOKEN(CREATE);}
+":"         { return TOKEN(DPRINT);}
 
 .           { ; }
 
