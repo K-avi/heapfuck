@@ -20,7 +20,7 @@ S_BIN_HEAP * initHeap(int heapsize){
     S_BIN_HEAP * ret= (S_BIN_HEAP*) malloc(sizeof(S_BIN_HEAP));
 
     ret->heap_size=heapsize;
-    ret->currindex=1;
+    ret->currindex=0;
     ret->heap= (int*) malloc(heapsize* sizeof(int));
 
     if(!ret->heap){
@@ -118,7 +118,7 @@ void min_heapify( S_BIN_HEAP * heap , int i){
         swap(heap, i, smallest);
         min_heapify(heap, smallest);
     }
-}//testes; seems ok
+}//tested; seems ok
 
 void decrease_key( S_BIN_HEAP * heap , int index , int decrement){
     /*

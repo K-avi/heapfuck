@@ -36,19 +36,21 @@ int exec(program * progr , S_BIN_HEAP * environment , S_STACK * stack, unsigned 
     switch (instruction) {
         
         case INT_LCHILD : 
-       
+            if(!idx) break;
             if(  OP_LCHILD(environment->currindex)<=(environment->heap[0])) 
               idx= OP_LCHILD(environment->currindex); 
 
         break;
         
         case INT_RCHILD :
+            if(!idx) break;
             if( OP_RCHILD(environment->currindex)<=(environment->heap[0])) 
               idx= OP_RCHILD(environment->currindex); 
             
         break;
 
         case INT_PARENT : 
+            if(!idx) break;
             if( OP_PARENT(environment->currindex)>=1) 
              idx= OP_PARENT(environment->currindex); 
             
@@ -65,12 +67,13 @@ int exec(program * progr , S_BIN_HEAP * environment , S_STACK * stack, unsigned 
         break; 
 
         case INT_PRINT: 
+            if(!idx) break;
             printf("%c", environment->heap[idx]); 
             if(printcheck){*printcheck=1;}
         break;
 
         case INT_READ : 
-          
+            if(!idx) idx=1;
             fflush(stdin);
             if(fgets(safe_getchar, 255, stdin)){
               
@@ -106,10 +109,16 @@ int exec(program * progr , S_BIN_HEAP * environment , S_STACK * stack, unsigned 
         break;
 
         case INT_POP: 
-            pop_index(environment, idx);
+            if(environment->heap[0]==0){
+                idx=0;
+                break;
+            }
+            if(idx==environment->heap[0]) idx--;
+            pop_index(environment, idx+1);
         break;
 
         case INT_CREATE :
+            if(!idx) idx=1;
             insert_key(environment, default_keyval);
         break;
 
