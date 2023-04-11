@@ -129,9 +129,92 @@
         <hr/>
         <div id="p4">
             <h2><u>IV: turing completness</u></h2>
+
+            <h4>Attempt at a proof by reduction of heapfuck's turing completness :</h4> 
             <p>
-                heapfuck is very likely turing complete. I'm not 100% sure though.
-            </p>
+              The general goal of this proof is to define a subset of heapfuck behaving like brainfuck. 
+
+              We will not map the I/O instruction of brainfuck because they are not necessary for turing 
+              completness.
+
+              The self preserving properties of a binary heap makes the behavior of the data structure 
+              hard to predict.
+              It is thus important to structure the heap in a way that makes it possible to emulate 
+              brainfuck (or P'' for that matter).
+              <ul>
+              <li>In order to do so we will assume that we have a heap of arbitrary large size at our 
+              disposal and that every node of this heap is initialised at 257.</li>
+              
+              <li>The second step is to set every node in the rightmost branch of the heap 
+              (starting from the root and going to the right every time) at -1.</li>
+
+              <li>The third step  is to set the left child of each of the rightmost nodes to 0 
+              (the idea is that  those nodes are the ones that will emulate the brainfuck cells). 
+              For the remainder of this proof these nodes will be called Tnodes (tape nodes).</li>
+
+              <li>With this construction these nodes can accept every value between 0 and 256 without 
+              the heap restructuring itself.</li>
+
+              <li>This means that the brainfuck <code>-</code> and <code>+</code> operators 
+              trivially behave the
+              same as the heapfuck ones in this context (as long as we assume that you don't overflow the
+              cell's value, in order to prevent that we could assume that the negative cells are set to an
+              arbitrary low value and the positive ones to an arbitrary high one).</li> 
+
+              <li>The idea is now to find equivalent to the brainfuck <code>&gt;</code> and <code>&lt;</code>
+              instructions. This is where the Tnodes will come in handy. 
+              We assume that the pointer is at an arbitrary Tnode (this allows to emulate the infinite tape)
+              In order to reach the next Tnode the Heapfuck sequence of instruction will ALWAYS be 
+              <code>^&gt;&lt;</code> this sequence of instruction allows us to emulate the brainfuck 
+              <code>&gt;</code> instruction.</li>
+
+              <li>In order to reach the previous Tnode. We use the same idea. The sequence of Heapfuck
+              instruction will always be <code>^^&lt;</code>. This thus emulates the brainfuck
+              <code>&lt;</code> instruction.</li>
+
+              <li>Assuming we only use the previously described movement instructions. The node pointer is
+              constrained on the Tnodes. This means that the Heapfuck loop construction will now behave 
+              the same way as the brainfuck one (this is because no zeroes can be reached outside of the
+              Tnodes).</li>
+
+              </ul>
+              Using a similar construction (with Tnodes and constrained movement) 
+              we could emulate any brainfuck derivative ( by adding other constraints if necessary).
+             </p>
+                <img src="graph_docu.svg"/>
+                <br/><i>illustration of the general structure of the heap used for this proof</i><br/><br/>
+                <table class="table table-bordered table-light">
+                <tbody>
+                    <tr>
+                        <th>brainfuck</th>
+                        <th>heapfuck equivalent</th>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center"><code>+</code></td>
+                        <td><code>+</code></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center"><code>-</code></td>
+                        <td><code>-</code></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center"><code>[</code></td>
+                        <td><code>[</code></td>
+                    </tr>
+                   <tr>
+                        <td style="text-align:center"><code>]</code></td>
+                        <td><code>]</code></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center"><code>&gt;</code></td>
+                        <td><code>^&gt;&lt;</code></td>
+                    </tr>
+                     <tr>
+                        <td style="text-align:center"><code>&lt;</code></td>
+                        <td><code>^^&lt;</code></td>
+                    </tr>
+        </tbody></table>
+        <p>the idea of this proof was found by <a href="https://github.com/Pacidus">Pacidus</a></p>
         </div>
     </body>
 </html>
