@@ -61,7 +61,7 @@ int * realloc_heap (S_BIN_HEAP * heap){
     
     heap->heap=realloc(heap->heap, sizeof(int)*(heap->heap_size+ _REALLOC_SIZE +1));
     heap->heap_size+= _REALLOC_SIZE;
-
+    
     for( int i= heap->heap_size- _REALLOC_SIZE  ; i<heap->heap_size; i++){
         heap->heap[i]= 0;
     }

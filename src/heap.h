@@ -11,7 +11,7 @@ typedef struct bin_heap{
 
 #define _DEFAULT_HEAPSIZE 2047 //that's a lot
 
-#define _REALLOC_SIZE 128
+#define _REALLOC_SIZE  128
 //allows increase the horizontal heap size by 1
 
 /*heap allocation*/
