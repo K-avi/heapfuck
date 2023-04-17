@@ -49,18 +49,24 @@ void free_heap( S_BIN_HEAP * heap){
 }//testes; ok
 
 
-void realloc_heap (S_BIN_HEAP * heap){
+int * realloc_heap (S_BIN_HEAP * heap){
     /*
     reallocates heap->heap to make it able to contain one more 
     level of nodes
 
     doesn't initialises heap or heap->heap if they're null
     */
-    if(!heap) return;
-    if(!heap->heap) return;
+    if(!heap) return NULL;
+    if(!heap->heap) return NULL;
     
-    heap->heap=realloc(heap->heap, sizeof(int)* _REALLOC_SIZE(heap->heap_size));
-    heap->heap_size+= _REALLOC_SIZE(heap->heap_size);
+    heap->heap=realloc(heap->heap, sizeof(int)*(heap->heap_size+ _REALLOC_SIZE +1));
+    heap->heap_size+= _REALLOC_SIZE;
+
+    for( int i= heap->heap_size- _REALLOC_SIZE  ; i<heap->heap_size; i++){
+        heap->heap[i]= 0;
+    }
+
+    return heap->heap;
 
 }//not tested  but  seems ok
 
@@ -165,8 +171,8 @@ void insert_key( S_BIN_HEAP * heap , int value){
     if(!heap) return;
     if(!heap->heap) return;
 
-    if( heap->heap_size<= heap->heap[0]) {
-        realloc_heap(heap);
+    if( heap->heap_size-1<= heap->heap[0]) {
+        heap->heap=realloc_heap(heap);
     }
 
     int i = ++heap->heap[0];
@@ -175,7 +181,6 @@ void insert_key( S_BIN_HEAP * heap , int value){
     while(i>0 &&  heap->heap[OP_PARENT(i)] > heap->heap[i]){
 
         swap(heap, i, OP_PARENT(i));
-       
         i=OP_PARENT(i);
     }
 

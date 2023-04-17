@@ -11,14 +11,14 @@ typedef struct bin_heap{
 
 #define _DEFAULT_HEAPSIZE 2047 //that's a lot
 
-#define _REALLOC_SIZE(cur_size) ( (cur_size)+1) 
+#define _REALLOC_SIZE 128
 //allows increase the horizontal heap size by 1
 
 /*heap allocation*/
 
 extern S_BIN_HEAP * initHeap(int heapsize);
 extern void free_heap( S_BIN_HEAP * heap);
-extern void realloc_heap (S_BIN_HEAP * heap);
+extern int * realloc_heap (S_BIN_HEAP * heap);
 
 
 /* heap manipulation*/
