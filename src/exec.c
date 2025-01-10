@@ -113,8 +113,8 @@ int exec(program * progr , S_BIN_HEAP * environment , S_STACK * stack, unsigned 
                 idx=0;
                 break;
             }
-            if(idx==environment->heap[0]) idx--;
-            pop_index(environment, idx+1);
+            pop_index(environment, idx);
+	    if(idx>environment->heap[0]) idx--;
         break;
 
         case INT_CREATE :
