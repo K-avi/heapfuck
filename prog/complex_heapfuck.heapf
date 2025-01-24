@@ -1,0 +1,44 @@
+Initialize the first node at -8 for the loop
+% --------
+
+Each time gen a new node at 0 find it and initialize it to the value A and print the itterator
+[%<[^>]+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++^+:]
+
+Purge the itterator (This part was not working with the version 1_0)
+!
+
+Set the value of
+
+	U
+<<<
+++++++++++++++++++++
+
+	P
+^
++++++++++++++++
+
+	K
+^>
+++++++++++
+
+	H
+^
++++++++
+
+	F
+^>>
++++++
+
+	E
+^<
+++++
+	C
+^
+++
+
+Return to the root already set to A
+^
+
+Retrieves and print characters in the correct order
+ H    E   A   P     F      U     C    K
+<. ^><. ^^. <<. ^^>>. ^^<<<. ^^^>. ^<>.
